@@ -474,6 +474,21 @@ dumpIterateForeignScan (
   ExecClearTuple(slot);
 
   /*
+   * As tuples are decompressed in chunks, we temporarily hold them in
+   * an in-memory tuplestore. On each iteration, we'll decompress the next
+   * block iff the tuplestore is empty. In order to clean-up the tuplestore
+   * memory as much as possible, we'll clear it here, rather than trying
+   * to rely on tuplestore_trim.
+   *
+   * NOTE: This assumes each iteration results in more than one tuple being
+   *       extracted from the dump. While there are cases where this may not
+   *       always be true, it should work best for the 80% of cases.
+   */
+  if (0 == festate->tuple_count) {
+    tuplestore_clear(festate->tupstore);
+  }
+
+  /*
    * Loop until we either reach a full tuple or EOF.
    */
   while (!(festate->at_eof || (0 != festate->tuple_count))) {
@@ -536,9 +551,6 @@ post_loop:
       elog(ERROR, "Issue getting tuple from store");
     }
     --festate->tuple_count;
-    if (0 == festate->tuple_count) {
-      tuplestore_trim(festate->tupstore);
-    }
   }
 
   /* then return the slot */
