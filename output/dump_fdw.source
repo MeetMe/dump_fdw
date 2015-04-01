@@ -137,7 +137,7 @@ ORDER BY b.id;
   4513 | Dune                  |      1866 |         15 |  1866 | Herbert      | Frank
   7808 | The Shining           |      4156 |          9 |  4156 | King         | Stephen
  25908 | Franklin in the Dark  |     15990 |          2 | 15990 | Bourgeois    | Paulette
- 41472 | Denham                |      1212 |          4 |  1212 | Worsley      | John
+ 41472 | Practical PostgreSQL  |      1212 |          4 |  1212 | Worsley      | John
  41473 | Programming Python    |      7805 |          4 |  7805 | Lutz         | Mark
  41477 | Learning Python       |      7805 |          4 |  7805 | Lutz         | Mark
  41478 | Perl Cookbook         |      7806 |          4 |  7806 | Christiansen | Tom
