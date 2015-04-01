@@ -1,0 +1,5 @@
+# dump_fdw extension
+comment = 'foreign-data wrapper for pgdump file access'
+default_version = '1.0'
+module_pathname = '$libdir/dump_fdw'
+relocatable = true

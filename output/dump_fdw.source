@@ -1,0 +1,175 @@
+BEGIN;
+SET client_min_messages TO 'error';
+DROP ROLE IF EXISTS dump_fdw_superuser;
+RESET client_min_messages;
+CREATE ROLE dump_fdw_superuser LOGIN SUPERUSER;
+CREATE EXTENSION dump_fdw;
+SET ROLE dump_fdw_superuser;
+CREATE SERVER dump_server FOREIGN DATA WRAPPER dump_fdw;
+CREATE FOREIGN TABLE alternate_stock (
+    isbn text,
+    cost numeric(5,2),
+    retail numeric(5,2),
+    stock integer
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'alternate_stock');
+CREATE FOREIGN TABLE authors (
+    id integer,
+    last_name text,
+    first_name text
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'authors');
+CREATE FOREIGN TABLE book_backup (
+    id integer,
+    title text,
+    author_id integer,
+    subject_id integer
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'book_backup');
+CREATE FOREIGN TABLE book_queue (
+    title text,
+    author_id integer,
+    subject_id integer,
+    approved boolean
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'book_queue');
+CREATE FOREIGN TABLE books (
+    id integer,
+    title text,
+    author_id integer,
+    subject_id integer
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'books');
+CREATE FOREIGN TABLE customers (
+    id integer,
+    last_name text,
+    first_name text
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'customers');
+CREATE FOREIGN TABLE daily_inventory (
+    isbn text,
+    is_stocked boolean
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'daily_inventory');
+CREATE FOREIGN TABLE distinguished_authors (
+    id integer,
+    last_name text,
+    first_name text,
+    award text
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'distinguished_authors');
+CREATE FOREIGN TABLE editions (
+    isbn text,
+    book_id integer,
+    edition integer,
+    publisher_id integer,
+    publication date,
+    type character(1)
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'editions');
+CREATE FOREIGN TABLE employees (
+    id integer,
+    last_name text,
+    first_name text
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'employees');
+CREATE FOREIGN TABLE favorite_authors (
+    employee_id integer,
+    authors_and_titles text[]
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'favorite_authors');
+CREATE FOREIGN TABLE favorite_books (
+    employee_id integer,
+    books text[]
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'favorite_books');
+CREATE FOREIGN TABLE money_example (
+    money_cash money,
+    numeric_cash numeric(6,2)
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'money_example');
+CREATE FOREIGN TABLE my_list (
+    todos text
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'my_list');
+CREATE FOREIGN TABLE numeric_values (
+    num numeric(30,6)
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'numeric_values');
+CREATE FOREIGN TABLE publishers (
+    id integer,
+    name text,
+    address text
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'publishers');
+CREATE FOREIGN TABLE schedules (
+    employee_id integer,
+    schedule text
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'schedules');
+CREATE FOREIGN TABLE shipments (
+    id integer,
+    customer_id integer,
+    isbn text,
+    ship_date timestamp with time zone
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'shipments');
+CREATE FOREIGN TABLE states (
+    id integer,
+    name text,
+    abbreviation character(2)
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'states');
+CREATE FOREIGN TABLE stock (
+    isbn text,
+    cost numeric(5,2),
+    retail numeric(5,2),
+    stock integer
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'stock');
+CREATE FOREIGN TABLE stock_backup (
+    isbn text,
+    cost numeric(5,2),
+    retail numeric(5,2),
+    stock integer
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'stock_backup');
+CREATE FOREIGN TABLE subjects (
+    id integer,
+    subject text,
+    location text
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'subjects');
+CREATE FOREIGN TABLE text_sorting (
+    letter character(1)
+) SERVER dump_server OPTIONS (file_name '/Users/jharris/Projects/pgdump/dump_fdw/data/booktown.dmp', schema_name 'public', relation_name 'text_sorting');
+SELECT *
+ FROM books b
+ JOIN ONLY authors a
+      ON (a.id = b.author_id)
+ORDER BY b.id;
+  id   |         title         | author_id | subject_id |  id   |  last_name   |    first_name    
+-------+-----------------------+-----------+------------+-------+--------------+------------------
+   156 | The Tell-Tale Heart   |       115 |          9 |   115 | Poe          | Edgar Allen
+   190 | Little Women          |        16 |          6 |    16 | Alcott       | Louisa May
+  1234 | The Velveteen Rabbit  |     25041 |          3 | 25041 | Bianco       | Margery Williams
+  1501 | Goodnight Moon        |      2031 |          2 |  2031 | Brown        | Margaret Wise
+  2038 | Dynamic Anatomy       |      1644 |          0 |  1644 | Hogarth      | Burne
+  4267 | 2001: A Space Odyssey |      2001 |         15 |  2001 | Clarke       | Arthur C.
+  4513 | Dune                  |      1866 |         15 |  1866 | Herbert      | Frank
+  7808 | The Shining           |      4156 |          9 |  4156 | King         | Stephen
+ 25908 | Franklin in the Dark  |     15990 |          2 | 15990 | Bourgeois    | Paulette
+ 41472 | Denham                |      1212 |          4 |  1212 | Worsley      | John
+ 41473 | Programming Python    |      7805 |          4 |  7805 | Lutz         | Mark
+ 41477 | Learning Python       |      7805 |          4 |  7805 | Lutz         | Mark
+ 41478 | Perl Cookbook         |      7806 |          4 |  7806 | Christiansen | Tom
+(13 rows)
+
+-- cleanup
+RESET ROLE;
+DROP EXTENSION dump_fdw CASCADE;
+NOTICE:  drop cascades to 24 other objects
+DETAIL:  drop cascades to server dump_server
+drop cascades to foreign table alternate_stock
+drop cascades to foreign table authors
+drop cascades to foreign table book_backup
+drop cascades to foreign table book_queue
+drop cascades to foreign table books
+drop cascades to foreign table customers
+drop cascades to foreign table daily_inventory
+drop cascades to foreign table distinguished_authors
+drop cascades to foreign table editions
+drop cascades to foreign table employees
+drop cascades to foreign table favorite_authors
+drop cascades to foreign table favorite_books
+drop cascades to foreign table money_example
+drop cascades to foreign table my_list
+drop cascades to foreign table numeric_values
+drop cascades to foreign table publishers
+drop cascades to foreign table schedules
+drop cascades to foreign table shipments
+drop cascades to foreign table states
+drop cascades to foreign table stock
+drop cascades to foreign table stock_backup
+drop cascades to foreign table subjects
+drop cascades to foreign table text_sorting
+DROP ROLE dump_fdw_superuser;
+COMMIT;
