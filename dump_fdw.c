@@ -39,6 +39,7 @@
 #include "miscadmin.h"
 #include "optimizer/planmain.h"
 #include "optimizer/restrictinfo.h"
+#include "utils/builtins.h"
 #include "utils/rel.h"
 
 #include "csv_parser.h"
@@ -532,12 +533,11 @@ post_loop:
         columnValues, columnNulls);
       ExecStoreVirtualTuple(slot);
     } else {
-      ExecStoreVirtualTuple(slot);
-      elog(WARNING, "Issue getting tuple from store");
+      elog(ERROR, "Issue getting tuple from store");
     }
     --festate->tuple_count;
     if (0 == festate->tuple_count) {
-      tuplestore_clear(festate->tupstore);
+      tuplestore_trim(festate->tupstore);
     }
   }
 
