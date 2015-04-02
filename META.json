@@ -1,0 +1,48 @@
+{
+   "name": "dump_fdw",
+   "abstract": "foreign-data wrapper for pgdump file access",
+   "description": "This extension implements a foreign data wrapper for PostgreSQL capable of querying data directly from files in PostgreSQL's custom dump format. This can be used to restore row-specific data.",
+   "version": "1.0.0",
+   "release_status": "unstable",
+   "maintainer": "Jonah H. Harris <jonah.harris@meetme.com>",
+   "license": "bsd",
+   "provides": {
+      "dump_fdw": {
+         "abstract": "foreign-data wrapper for pgdump file access",
+         "file": "dump_fdw--1.0.sql",
+         "docfile": "README.md",
+         "version": "1.0.0"
+      }
+   },
+   "prereqs": {
+      "runtime": {
+         "requires": {
+            "PostgreSQL": "9.1.0"
+         }
+      }
+   },
+   "resources": {
+      "bugtracker": {
+         "web": "https://github.com/MeetMe/dump_fdw/issues"
+      },
+      "repository": {
+        "url":  "git://github.com/MeetMe/dump_fdw.git",
+        "web":  "https://github.com/MeetMe/dump_fdw",
+        "type": "git"
+      }
+   },
+   "generated_by": "David E. Wheeler",
+   "meta-spec": {
+      "version": "1.0.0",
+      "url": "http://pgxn.org/meta/spec.txt"
+   },
+   "tags": [
+      "fdw",
+      "foreign data wrapper",
+      "pgdump",
+      "pg_dump",
+      "backup",
+      "custom dump format",
+      "dump"
+   ]
+}
